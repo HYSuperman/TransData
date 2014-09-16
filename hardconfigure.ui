@@ -67,7 +67,7 @@
      <x>1010</x>
      <y>290</y>
      <width>249</width>
-     <height>71</height>
+     <height>81</height>
     </rect>
    </property>
    <property name="title">
@@ -266,6 +266,12 @@
      <height>19</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
     <string>USRP Source</string>
    </property>
@@ -382,14 +388,14 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>985</x>
+     <x>1045</x>
      <y>660</y>
-     <width>251</width>
+     <width>191</width>
      <height>29</height>
     </rect>
    </property>
    <property name="standardButtons">
-    <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -461,6 +467,12 @@
      <width>91</width>
      <height>19</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>USRP Sink</string>
@@ -772,6 +784,12 @@
    <layout class="QHBoxLayout" name="horizontalLayout_3">
     <item>
      <widget class="QLabel" name="label_7">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="text">
        <string>Source Mac Address:</string>
       </property>
@@ -792,6 +810,12 @@
     </item>
     <item>
      <widget class="QLabel" name="label_8">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="text">
        <string>Dest Mac Address:</string>
       </property>
@@ -898,7 +922,7 @@
      <x>980</x>
      <y>50</y>
      <width>16</width>
-     <height>311</height>
+     <height>331</height>
     </rect>
    </property>
    <property name="orientation">
@@ -960,24 +984,11 @@
     </item>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>760</x>
-     <y>430</y>
-     <width>99</width>
-     <height>27</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>make_device</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_3">
    <property name="geometry">
     <rect>
-     <x>930</x>
-     <y>430</y>
+     <x>850</x>
+     <y>660</y>
      <width>99</width>
      <height>27</height>
     </rect>
@@ -986,17 +997,17 @@
     <string>reset</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_6">
+  <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>1050</x>
-     <y>430</y>
-     <width>113</width>
+     <x>710</x>
+     <y>660</y>
+     <width>99</width>
      <height>27</height>
     </rect>
    </property>
    <property name="text">
-    <string>1</string>
+    <string>make device</string>
    </property>
   </widget>
  </widget>
