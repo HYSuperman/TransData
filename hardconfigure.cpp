@@ -18,19 +18,20 @@ hardConfigure::hardConfigure(QWidget *parent) :
 {
    setupUi(this);
 
+   pushButton_2->hide();
+
    mac_phy_Process = new QProcess(this);
    make_device = new QProcess(this);
    reset_test = new QProcess(this);
-
    buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Run"));
-   buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);//disable apply button
    setReg();
-   buttonBox->button(QDialogButtonBox::Apply)->setEnabled(APPLYABLE);//check if it is appliable now
+   buttonBox->button(QDialogButtonBox::Ok)->setEnabled(APPLYABLE);//check if it is appliable now
    connect(pushButton, SIGNAL(clicked()), this, SLOT(getFile()));
-   connect(pushButton_2, SIGNAL(clicked()), this , SLOT(run_make_device()));
+   connect(pushButton_2, SIGNAL(clicked()), this, SLOT(run_make_device()));
    connect(pushButton_3, SIGNAL(clicked()), this, SLOT(run_reset_test()));
 
 }
+
 
 void hardConfigure::getFile(){
     QFileDialog dialog(this);
@@ -244,11 +245,13 @@ void hardConfigure::toLowerUnit(QString & string, int mode){
 
 void hardConfigure::on_buttonBox_clicked(QAbstractButton *button)
 {
-    if(buttonBox->buttonRole(button)== buttonBox->ApplyRole)
+    if(buttonBox->buttonRole(button)== buttonBox->AcceptRole){
+        run_reset_test();
         Save();
-    if(buttonBox->buttonRole(button)== buttonBox->AcceptRole)
 		run_mac_phy();
+    }
 }
+
 
 void hardConfigure::run_make_device(){
     make_device->start("../sPciDriver/make_device");
@@ -256,32 +259,32 @@ void hardConfigure::run_make_device(){
         std::cout << "Failed to start make_device" << std::endl;
     std::cout << "make_device started" << std::endl;
     if(make_device->waitForFinished())
-        std::cout << "make_device finished" << std::endl;
+        std::cout << "Finished make_device" << std::endl;
+    else
+        std::cout << "Failed make_device" << std::endl;
 }
+
 
 
 
 void hardConfigure::run_reset_test(){
-    QStringList para;
-    para << lineEdit_6->text();
-    make_device->start("./reset_test", para);
-    if(!make_device->waitForStarted())
+    QString para = "1";
+    reset_test->start("./reset_test", QStringList() << para);
+    if(!reset_test->waitForStarted())
         std::cout << "Failed to start reset_test" << std::endl;
-    std::cout << "reset_test started" << std::endl;
-    if(make_device->waitForFinished())
-        std::cout << "finished reset_test" << std::endl;
+    std::cout << "Reset_test started" << std::endl;
+    if(reset_test->waitForFinished())
+        std::cout << "Finished reset_test" << std::endl;
+    else
+        std::cout << "Failed reset_test" << std::endl;
 
 }
 
 void hardConfigure::run_mac_phy(){
-     //QProcess::execute("./constellation_mapping");
     mac_phy_Process->start("./low_mac configure_file.txt");
-    //mac_phy_Process->start("./a.out");
-    //mac_phy_Process->start("./constellation_mapping");
-    //std::cout << "1111" << std::endl;
     if (!mac_phy_Process->waitForStarted())
-        std::cout << "Failed to start" << std::endl;
-    std::cout << "low_mac started..." << std::endl;
+        std::cout << "Failed to start low_mac" << std::endl;
+    std::cout << "Low_mac started..." << std::endl;
     this->hide();
     outPutDialog *outPut = new outPutDialog(this);
     outPut->show();
