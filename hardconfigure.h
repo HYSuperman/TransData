@@ -68,6 +68,9 @@ private slots:
     void on_lineEdit_10_textChanged();
     void on_buttonBox_clicked(QAbstractButton *button);
 
+    void writeSettings();
+    void readSettings();
+
 };
 
 #endif // HARDCONFIGURE_H

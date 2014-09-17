@@ -17,6 +17,7 @@ hardConfigure::hardConfigure(QWidget *parent) :
     QDialog(parent)
 {
    setupUi(this);
+   readSettings();
 
    pushButton_2->hide();
 
@@ -29,6 +30,7 @@ hardConfigure::hardConfigure(QWidget *parent) :
    connect(pushButton, SIGNAL(clicked()), this, SLOT(getFile()));
    connect(pushButton_2, SIGNAL(clicked()), this, SLOT(run_make_device()));
    connect(pushButton_3, SIGNAL(clicked()), this, SLOT(run_reset_test()));
+
 
 }
 
@@ -74,39 +76,39 @@ void hardConfigure::setReg(){
 }
 
 void hardConfigure::on_lineEdit_5_textChanged(){
-    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(APPLYABLE);
+    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(APPLYABLE);
 }
 
 void hardConfigure::on_lineEdit_12_textChanged(){
-buttonBox->button(QDialogButtonBox::Apply)->setEnabled(APPLYABLE);
+buttonBox->button(QDialogButtonBox::Ok)->setEnabled(APPLYABLE);
 }
 
 void hardConfigure::on_lineEdit_1_textChanged(){
-buttonBox->button(QDialogButtonBox::Apply)->setEnabled(APPLYABLE);
+buttonBox->button(QDialogButtonBox::Ok)->setEnabled(APPLYABLE);
 }
 
 void hardConfigure::on_lineEdit_2_textChanged(){
-buttonBox->button(QDialogButtonBox::Apply)->setEnabled(APPLYABLE);
+buttonBox->button(QDialogButtonBox::Ok)->setEnabled(APPLYABLE);
 }
 
 void hardConfigure::on_lineEdit_7_textChanged(){
-buttonBox->button(QDialogButtonBox::Apply)->setEnabled(APPLYABLE);
+buttonBox->button(QDialogButtonBox::Ok)->setEnabled(APPLYABLE);
 }
 
 void hardConfigure::on_lineEdit_9_textChanged(){
-buttonBox->button(QDialogButtonBox::Apply)->setEnabled(APPLYABLE);
+buttonBox->button(QDialogButtonBox::Ok)->setEnabled(APPLYABLE);
 }
 
 void hardConfigure::on_lineEdit_8_textChanged(){
-buttonBox->button(QDialogButtonBox::Apply)->setEnabled(APPLYABLE);
+buttonBox->button(QDialogButtonBox::Ok)->setEnabled(APPLYABLE);
 }
 
 void hardConfigure::on_lineEdit_11_textChanged(){
-buttonBox->button(QDialogButtonBox::Apply)->setEnabled(APPLYABLE);
+buttonBox->button(QDialogButtonBox::Ok)->setEnabled(APPLYABLE);
 }
 
 void hardConfigure::on_lineEdit_10_textChanged(){
-buttonBox->button(QDialogButtonBox::Apply)->setEnabled(APPLYABLE);
+buttonBox->button(QDialogButtonBox::Ok)->setEnabled(APPLYABLE);
 }
 
 void hardConfigure::output(QTextStream &Out){
@@ -246,6 +248,7 @@ void hardConfigure::toLowerUnit(QString & string, int mode){
 void hardConfigure::on_buttonBox_clicked(QAbstractButton *button)
 {
     if(buttonBox->buttonRole(button)== buttonBox->AcceptRole){
+        writeSettings();
         run_reset_test();
         Save();
 		run_mac_phy();
@@ -288,6 +291,59 @@ void hardConfigure::run_mac_phy(){
     this->hide();
     outPutDialog *outPut = new outPutDialog(this);
     outPut->show();
+}
+
+
+void hardConfigure::writeSettings(){
+    QSettings settings("Peking University", "GRT");
+    settings.setValue("fileChoosed", lineEdit->text());
+    settings.setValue("state",  buttonGroup->checkedId());
+    settings.setValue("sourcemacaddress", lineEdit_3->text());
+    settings.setValue("destmacaddress", lineEdit_4->text());
+    settings.setValue("ccathreshold", lineEdit_5->text());
+    settings.setValue("difs", lineEdit_12->text());
+    settings.setValue("sifs", lineEdit_1->text());
+    settings.setValue("acktimeout", lineEdit_2->text());
+    settings.setValue("rate", buttonGroup_2->checkedId());
+    settings.setValue("psdulength", lineEdit_7->text());
+    settings.setValue("rxcenterfre", lineEdit_9->text());
+    settings.setValue("rxcenterfrecombo", comboBox_2->currentIndex());
+    settings.setValue("rxsamplerate", lineEdit_11->text());
+    settings.setValue("rxsampleratecombo", comboBox_4->currentIndex());
+    settings.setValue("rxgain", spinBox_1->value());
+    settings.setValue("txcenterfre", lineEdit_8->text());
+    settings.setValue("txcenterfrecombo", comboBox_1->currentIndex());
+    settings.setValue("txsamplerate", lineEdit_10->text());
+    settings.setValue("txsampleratecombo", comboBox_3->currentIndex());
+    settings.setValue("txgain", spinBox_2->value());
+
+
+}
+
+
+void hardConfigure::readSettings(){
+    QSettings settings("Peking University", "GRT");
+    lineEdit->setText(settings.value("fileChoosed", "grt.jpg").toString());
+    buttonGroup->button(settings.value("state", -3).toInt())->setChecked(true);
+    lineEdit_3->setText(settings.value("sourcemacaddress", "ce:ca:22:ce:ca:22").toString());
+    lineEdit_4->setText(settings.value("destmacaddress", "ce:ca:11:ce:ca:11").toString());
+    lineEdit_5->setText(settings.value("ccathreshold", "65535").toString());
+    lineEdit_12->setText(settings.value("difs", "34").toString());
+    lineEdit_1->setText(settings.value("sifs", "16").toString());
+    lineEdit_2->setText(settings.value("acktimeout", "1250").toString());
+    buttonGroup_2->button(settings.value("rate", -9).toInt())->setChecked(true);
+    lineEdit_7->setText(settings.value("psdulength", "4095").toString());
+    lineEdit_9->setText(settings.value("rxcenterfre", "2.457").toString());
+    comboBox_2->setCurrentIndex(settings.value("rxcenterfrecombo", 0).toInt());
+    lineEdit_11->setText(settings.value("rxsamplerate", "12.5").toString());
+    comboBox_4->setCurrentIndex(settings.value("rxsampleratecombo", 0).toInt());
+    spinBox_1->setValue(settings.value("rxgain", 20).toInt());
+    lineEdit_8->setText(settings.value("txcenterfre", "2.457").toString());
+    comboBox_1->setCurrentIndex(settings.value("txcenterfrecombo", 0).toInt());
+    lineEdit_10->setText(settings.value("txsamplerate", "12.5").toString());
+    comboBox_3->setCurrentIndex(settings.value("txsampleratecombo", 0).toInt());
+    spinBox_2->setValue(settings.value("txgain", 20).toInt());
+
 }
 
 
